@@ -1,43 +1,36 @@
 import { Table } from "@mantine/core";
+import { CropRecord } from "../../constant";
 
-type CropData = {
-    wheat: number;
-    rice: number;
-    maize: number;
-  };
-  
-const  CropStatsTable= (props:any) => {
-    const {mockData}=props
-    const rows = mockData.map((row: { [x: string]: any; year: any; }) => {
-      const { year, ...crops } = row;
-      const entries = Object.entries(crops);
-      const maxCrop = entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
-      const minCrop = entries.reduce((a, b) => (a[1] < b[1] ? a : b))[0];
-      return (
-        <tr key={year}>
-        <td style={{ textAlign: 'center' }}>{year}</td>
-        <td style={{ textAlign: 'center' }}>
-        {maxCrop}: {crops[maxCrop as keyof CropData]}
-        </td>
-        <td style={{ textAlign: 'center' }}>
-        {minCrop}: {crops[minCrop as keyof CropData]}
-        </td>
-      </tr>
-      );
-    });
-  
-    return (
-      <Table striped highlightOnHover withColumnBorders verticalSpacing="md">
-        <thead>
-          <tr>
-            <th style={{ textAlign: 'center' }}>Year</th>
-            <th style={{ textAlign: 'center' }}>Max Crop</th>
-            <th style={{ textAlign: 'center' }}>Min Crop</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    );
-  }
-  
-  export default CropStatsTable
+
+type Props = {
+  mockData: CropRecord[];
+};
+
+const CropStatsTable = ({ mockData }: Props) => {
+  const rows = mockData.map((record, index) => (
+    <Table.Tr key={index}>
+      <Table.Td ta="center">{record.Year}</Table.Td>
+      <Table.Td ta="center">{record["Crop Name"]}</Table.Td>
+      <Table.Td ta="center">{record["Crop Production (UOM:t(Tonnes))"] || "N/A"}</Table.Td>
+      <Table.Td ta="center">{record["Yield Of Crops (UOM:Kg/Ha(KilogramperHectare))"] || "N/A"}</Table.Td>
+      <Table.Td ta="center">{record["Area Under Cultivation (UOM:Ha(Hectares))"] || "N/A"}</Table.Td>
+    </Table.Tr>
+  ));
+
+  return (
+    <Table striped highlightOnHover withColumnBorders verticalSpacing="md">
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th ta="center">Year</Table.Th>
+          <Table.Th ta="center">Crop</Table.Th>
+          <Table.Th ta="center">Production (t)</Table.Th>
+          <Table.Th ta="center">Yield (Kg/Ha)</Table.Th>
+          <Table.Th ta="center">Area (Ha)</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>{rows}</Table.Tbody>
+    </Table>
+  );
+};
+
+export default CropStatsTable;
