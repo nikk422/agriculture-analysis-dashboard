@@ -17,7 +17,7 @@ const Dashboard = () => {
   useEffect(()=>{
     setColorScheme("light");
   },[])
-  
+
 
   return (
     <Container size="lg" p={15}>
@@ -33,14 +33,14 @@ const Dashboard = () => {
   
     <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl">
       <Title order={2} mb="md">
-        📊 Average Crop Production
+        📊 Crop Production Overview
       </Title>
       <CropBarChart mockData={mockData} />
     </Card>
   
     <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl">
       <Title order={2} mb="md">
-        📋 Yearly Crop Statistics
+        📋 Yearly Crop Reports
       </Title>
       <CropStatsTable mockData={mockData} />
     </Card>

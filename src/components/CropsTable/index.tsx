@@ -6,56 +6,26 @@ type Props = {
 };
 
 const CropStatsTable = ({ mockData }: Props) => {
-  const groupedByYear: { [year: string]: CropRecord[] } = {};
-  
-  mockData.forEach((record) => {
-    const year = record.Year;
-    if (!groupedByYear[year]) groupedByYear[year] = [];
-    groupedByYear[year].push(record);
-  });
+  const productionKey = "Crop Production (UOM:t(Tonnes))";
 
-  const yearMaxMin: { [year: string]: { max: number; min: number } } = {};
+  // Calculate max and min production per year
+  const yearStats: Record<string, { max: number; min: number }> = {};
 
-  for (const year in groupedByYear) {
-    const productions: number[] = [];
-    for (const record of groupedByYear[year]) {
-      const production = Number(record["Crop Production (UOM:t(Tonnes))"]) || 0;
-      if (production > 0) productions.push(production);
+  mockData.forEach((item) => {
+    const year = item.Year;
+    const value = Number(item[productionKey]) || 0;
+
+    if (!yearStats[year]) {
+      yearStats[year] = { max: value, min: value };
+    } else {
+      yearStats[year].max = Math.max(yearStats[year].max, value);
+      if (value > 0) {
+        yearStats[year].min =
+          yearStats[year].min === 0
+            ? value
+            : Math.min(yearStats[year].min, value);
+      }
     }
-    
-    yearMaxMin[year] = {
-      max: Math.max(...productions),
-      min: productions.length > 0 ? Math.min(...productions) : 0,
-    };
-  }
-
-  // Map data into table rows
-  const rows = mockData.map((record, index) => {
-    const year = record.Year;
-    const production = Number(record["Crop Production (UOM:t(Tonnes))"]) || 0;
-
-    return (
-      <Table.Tr key={index}>
-        <Table.Td ta="center">{record.Year}</Table.Td>
-        <Table.Td ta="center">{record["Crop Name"]}</Table.Td>
-        <Table.Td ta="center">
-          {production || "N/A"}
-          {production > 0 && (
-            production === yearMaxMin[year].max ? (
-              <Badge color="green">Max</Badge>
-            ) : production === yearMaxMin[year].min ? (
-              <Badge color="red">Min</Badge>
-            ) : null
-          )}
-        </Table.Td>
-        <Table.Td ta="center">
-          {record["Yield Of Crops (UOM:Kg/Ha(KilogramperHectare))"] || "N/A"}
-        </Table.Td>
-        <Table.Td ta="center">
-          {record["Area Under Cultivation (UOM:Ha(Hectares))"] || "N/A"}
-        </Table.Td>
-      </Table.Tr>
-    );
   });
 
   return (
@@ -69,7 +39,35 @@ const CropStatsTable = ({ mockData }: Props) => {
           <Table.Th ta="center">Area (Ha)</Table.Th>
         </Table.Tr>
       </Table.Thead>
-      <Table.Tbody>{rows}</Table.Tbody>
+
+
+      <Table.Tbody>
+        {mockData.map((record, index) => {
+          const year = record.Year;
+          const production = Number(record[productionKey]) || 0;
+          const { max, min } = yearStats[year] || { max: 0, min: 0 };
+
+          return (
+            <Table.Tr key={index}>
+              <Table.Td ta="center">{year}</Table.Td>
+              <Table.Td ta="center">{record["Crop Name"]}</Table.Td>
+              <Table.Td ta="center">
+                {production || "N/A"}{" "}
+                {production === max && <Badge color="green">Max</Badge>}
+                {production === min && <Badge color="red">Min</Badge>}
+              </Table.Td>
+              <Table.Td ta="center">
+                {record["Yield Of Crops (UOM:Kg/Ha(KilogramperHectare))"] ||
+                  "N/A"}
+              </Table.Td>
+              <Table.Td ta="center">
+                {record["Area Under Cultivation (UOM:Ha(Hectares))"] || "N/A"}
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
+      </Table.Tbody>
+
     </Table>
   );
 };

@@ -12,11 +12,11 @@ const CropBarChart = ({ mockData }: Props) => {
   useEffect(() => {
     const cropTotals: Record<string, { sum: number; count: number }> = {};
 
-    mockData.forEach((entry) => {
-      const crop = entry["Crop Name"];
-      const production = entry["Crop Production (UOM:t(Tonnes))"];
+    mockData.forEach((item) => {
+      const crop = item["Crop Name"];
+      const production = Number(item["Crop Production (UOM:t(Tonnes))"]) || 0;
 
-      if (typeof production === "number") {
+      if ( production > 0) {
         if (!cropTotals[crop]) {
           cropTotals[crop] = { sum: 0, count: 0 };
         }
