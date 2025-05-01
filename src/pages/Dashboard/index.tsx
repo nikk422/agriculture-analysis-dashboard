@@ -4,7 +4,6 @@ import CropBarChart from "../../components/CropBarChart";
 import CropStatsTable from "../../components/CropsTable";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import { useEffect } from "react";
-import AggregatedCropTable from "../../components/AggregatedCropTable";
 
 const Dashboard = () => {
   const { setColorScheme } = useMantineColorScheme();
@@ -21,28 +20,31 @@ const Dashboard = () => {
 
   return (
     <Container size="lg" p={15}>
-      <Group justify="space-between" mb="xl">
-        <Title order={1}>🌾 Agriculture Analytics</Title>
-        <Switch onClick={toggleColorScheme} size="lg" onLabel={toggleTheme} offLabel={toggleTheme} />
-      </Group>
-      <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl">
-        <Title order={2} mb="md">
-          📊 Average Crop Production
-        </Title>
-        <CropBarChart mockData={mockData} />
-      </Card>
-
-      <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl" >
-        <Title order={2} mb="md">
-          📋 Yearly Crop Statistics
-        </Title>
-        <CropStatsTable mockData={mockData} />
-      </Card>
-      <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl" >
-    <Title order={2} mb="md">🧮 Crop Extremes by Year</Title>
-    <AggregatedCropTable mockData={mockData} />
+    <Group justify="space-between" mb="xl">
+      <Title order={1}>🌾 Agriculture Analytics</Title>
+      <Switch 
+        onClick={toggleColorScheme} 
+        size="lg" 
+        onLabel={toggleTheme} 
+        offLabel={toggleTheme} 
+      />
+    </Group>
+  
+    <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl">
+      <Title order={2} mb="md">
+        📊 Average Crop Production
+      </Title>
+      <CropBarChart mockData={mockData} />
     </Card>
-    </Container>
+  
+    <Card withBorder radius="lg" shadow="sm" p="lg" mb="xl">
+      <Title order={2} mb="md">
+        📋 Yearly Crop Statistics
+      </Title>
+      <CropStatsTable mockData={mockData} />
+    </Card>
+  </Container>
+  
   );
 };
 

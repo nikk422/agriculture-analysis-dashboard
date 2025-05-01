@@ -33,7 +33,6 @@ const CropBarChart = ({ mockData }: Props) => {
     const chart = echarts.init(chartRef.current!);
     chart.setOption({
       title: {
-        // text: "Average Crop Production",
         left: "center",
       },
       tooltip: {},
@@ -41,8 +40,8 @@ const CropBarChart = ({ mockData }: Props) => {
         type: "category",
         data: cropNames,
         axisLabel: {
-          interval: 0, 
-          rotate: 20,  
+          interval: 0,
+          rotate: 20,
         },
       },
       yAxis: {

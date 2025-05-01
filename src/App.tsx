@@ -1,15 +1,23 @@
 import '@mantine/core/styles.css';
-import {MantineProvider} from '@mantine/core';
+import {Center, Loader, MantineProvider} from '@mantine/core';
 import { theme } from './theme';
 import '@mantine/core/styles.css';
-import Dashboard from './pages/Dashboard';
+import { lazy, Suspense } from 'react';
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+
 
 const  App = () => {
   return (
     <MantineProvider
       theme={theme}
       defaultColorScheme="light">
-      <Dashboard/>
+     <Suspense fallback={
+        <Center style={{ height: '100vh' }}>
+          <Loader size={50} color="blue" />
+        </Center>
+        }>
+      <Dashboard />
+    </Suspense>
     </MantineProvider>
   );
 }
