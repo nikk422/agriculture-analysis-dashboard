@@ -17,6 +17,7 @@ const Dashboard = () => {
   useEffect(()=>{
     setColorScheme("light");
   },[])
+  
 
   return (
     <Container size="lg" p={15}>
