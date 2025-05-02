@@ -12,7 +12,6 @@ This dashboard helps users explore agriculture data easily. It shows how much di
 - **Interactive Crop Production Chart**: A bar chart displaying average crop production across different crops.
 - **Yearly Crop Reports**: A table that shows crop production, yield, and farming area for each year.
 - **Theme Toggle**: Switch between light and dark modes to enhance readability based on user preference.
-- **Responsive Design**: Fully responsive, adapts to different screen sizes for both desktop and mobile use.
 
 ## Tech Stack
 - **Frontend**: React, Mantine, ECharts
